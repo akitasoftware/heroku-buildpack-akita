@@ -32,7 +32,7 @@ mkdir -p "${BUILD_DIR}/.profile.d"
 cat <<EOF > ${BUILD_DIR}/.profile.d/akita.sh
 #!/usr/bin/env bash
 
-export PATH=\$PATH:${BUILD_DIR}/akita/bin
+export PATH=\${PATH}:\${HOME}/akita/bin
 
 if [ -z "\${AKITA_API_KEY_ID}" ]; then
   echo "AKITA_API_KEY_ID environment variable not set"
@@ -55,8 +55,11 @@ if [ -z "\${HEROKU_SLUG_COMMIT}" ]; then
 fi
 
 echo "LS"
-ls -l ${BUILD_DIR}/akita
-ls -l ${BUILD_DIR}/akita/bin
+ls -l \${HOME}/akita
+ls -l \${HOME}/akita/bin
+
+echo "LS HOME"
+ls -l \${HOME}
 
 echo "PATH"
 echo \$PATH
