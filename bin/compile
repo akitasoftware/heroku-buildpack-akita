@@ -54,7 +54,13 @@ if [ -z "\${HEROKU_SLUG_COMMIT}" ]; then
   exit 1
 fi
 
-# PATH set by compile script
+echo "LS"
+ls -l ${BUILD_DIR}/akita
+ls -l ${BUILD_DIR}/akita/bin
+
+echo "PATH"
+echo \$PATH
+
 if [ -z "\${PORT}" ]; then
   akita apidump \
     --out akita://\${AKITA_SERVICE}:trace:heroku-\${HEROKU_SLUG_COMMIT}
