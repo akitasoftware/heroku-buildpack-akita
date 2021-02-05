@@ -14,11 +14,6 @@ BUILDPACK_DIR=$(cd "$(dirname "$0")"; cd ..; pwd)
 
 # TODO(kku): store apt cache in CACHE_DIR
 
-echo "Installing dependencies"
-
-apt-get update
-apt-get install -y libpcap0.8
-
 echo "Installing Akita CLI"
 
 wget \
