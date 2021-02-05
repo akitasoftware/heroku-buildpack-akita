@@ -2,6 +2,7 @@
 # bin/compile BUILD_DIR CACHE_DIR ENV_DIR
 
 set -euo pipefail
+set -x
 
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -14,10 +15,10 @@ BUILDPACK_DIR=$(cd "$(dirname "${BUILD_DIR}")"; cd ..; pwd)
 echo "Installing Akita CLI"
 
 wget \
-  -O akita_0.10.4_darwin_amd64.zip \
-  https://releases.akita.software/cli/0.10.4/akita_0.10.4_darwin_amd64.zip
+  -O akita_0.10.4_linux_amd64.zip \
+  https://releases.akita.software/cli/0.10.4/akita_0.10.4_linux_amd64.zip
 
-unzip akita_0.10.4_darwin_amd64.zip
+unzip akita_0.10.4_linux_amd64.zip
 mkdir -p ${HOME}/akita/bin
 mv akita ${HOME}/akita/bin/akita
 
@@ -25,5 +26,5 @@ mv akita ${HOME}/akita/bin/akita
 echo "Setting up Akita CLI in .profile.d"
 
 mkdir -p "${BUILD_DIR}/.profile.d"
-cp "$BUILDPACK_DIR/.profile.d/akita.sh" "$BUILD_DIR/.profile.d/akita.sh"
+cp "${BUILDPACK_DIR}/.profile.d/akita.sh" "${BUILD_DIR}/.profile.d/akita.sh"
 chmod +x "${BUILD_DIR}/.profile.d/akita.sh"
