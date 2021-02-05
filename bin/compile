@@ -13,17 +13,13 @@ BUILDPACK_DIR=$(cd "$(dirname "${BUILD_DIR}")"; cd ..; pwd)
 
 echo "Installing Akita CLI"
 
-apt-get update
-apt-get install -y apt-transport-https curl gnupg
+wget \
+  -O akita_0.10.4_darwin_amd64.zip \
+  https://releases.akita.software/cli/0.10.4/akita_0.10.4_darwin_amd64.zip
 
-sh -c "echo 'deb [arch=amd64] https://apt.releases.akita.software/ stable main' > /etc/apt/sources.list.d/akita.list"
-curl -f https://releases.akita.software/keys/akita-apt.public | apt-key add -
-apt-get update \
-  -o Dir::Etc::sourcelist="sources.list.d/akita.list" \
-  -o Dir::Etc::sourceparts="-" \
-  -o APT::Get::List-Cleanup="0"
-
-apt-get install -y --force-yes akita-cli
+unzip akita_0.10.4_darwin_amd64.zip
+mkdir -p ${HOME}/akita/bin
+mv akita ${HOME}/akita/bin/akita
 
 # Add to .profile.d to automatically run at startup.
 echo "Setting up Akita CLI in .profile.d"

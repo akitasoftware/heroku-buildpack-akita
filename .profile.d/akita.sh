@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export PATH=${PATH}:${HOME}/akita/bin
+
 if [ -z "${AKITA_API_KEY_ID}" ]; then
   echo "AKITA_API_KEY_ID environment variable not set"
   exit 1
