@@ -22,11 +22,14 @@ if [ -z "${HEROKU_SLUG_COMMIT}" ]; then
   exit 1
 fi
 
+echo "HOME AKITA DIR"
+ls -l ${HOME}/akita/bin
+
 if [ -z "${PORT}" ]; then
-  akita apidump \
+  ${HOME}/akita/bin/akita apidump \
     --out akita://${AKITA_SERVICE}:trace:heroku-${HEROKU_SLUG_COMMIT}
 else
-  akita apidump \
+  ${HOME}/akita/bin/akita apidump \
     --out akita://${AKITA_SERVICE}:trace:heroku-${HEROKU_SLUG_COMMIT} \
     --filter "port ${PORT}"
 fi
