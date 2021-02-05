@@ -21,8 +21,8 @@ wget \
   https://releases.akita.software/cli/0.10.4/akita_0.10.4_linux_amd64.zip
 
 unzip akita_0.10.4_linux_amd64.zip
-mkdir -p /akita/bin
-mv akita /akita/bin/akita
+mkdir -p ${HOME}/akita/bin
+mv akita ${HOME}/akita/bin/akita
 
 # Add to .profile.d to automatically run at startup.
 echo "Setting up Akita CLI in .profile.d"
