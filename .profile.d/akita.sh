@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PATH=${PATH}:${HOME}/akita/bin
+export PATH=${PATH}:/akita/bin
 
 if [ -z "${AKITA_API_KEY_ID}" ]; then
   echo "AKITA_API_KEY_ID environment variable not set"
@@ -23,13 +23,24 @@ if [ -z "${HEROKU_SLUG_COMMIT}" ]; then
 fi
 
 echo "HOME AKITA DIR"
-ls -l ${HOME}/akita/bin
+ls -l /akita/bin
+
+echo "PWD"
+pwd
+
+echo "LS PWD"
+ls $(pwd)
+
+echo "LS /"
+ls /
+
+echo "========="
 
 if [ -z "${PORT}" ]; then
-  ${HOME}/akita/bin/akita apidump \
+  /akita/bin/akita apidump \
     --out akita://${AKITA_SERVICE}:trace:heroku-${HEROKU_SLUG_COMMIT}
 else
-  ${HOME}/akita/bin/akita apidump \
+  /akita/bin/akita apidump \
     --out akita://${AKITA_SERVICE}:trace:heroku-${HEROKU_SLUG_COMMIT} \
     --filter "port ${PORT}"
 fi
