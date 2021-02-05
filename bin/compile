@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+
+set -euo pipefail
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+BUILDPACK_DIR=$(cd "$(dirname "${BUILD_DIR}")"; cd ..; pwd)
+
+# TODO(kku): store apt cache in CACHE_DIR
+
+echo "Installing Akita CLI"
+
+wget \
+  -O install_akita.sh \
+  -L https://releases.akita.software/scripts/install_akita.sh
+
+bash -c "$(cat install_akita.sh)"
+
+# Add to .profile.d to automatically run at startup.
+echo "Setting up Akita CLI in .profile.d"
+
+mkdir -p "${BUILD_DIR}/.profile.d"
+cp "$BUILDPACK_DIR/.profile.d/akita.sh" "$BUILD_DIR/.profile.d/akita.sh"
+chmod +x "${BUILD_DIR}/.profile.d/akita.sh"

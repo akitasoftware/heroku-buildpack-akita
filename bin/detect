@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
+# TODO: support arbitrary docker containers
+if [ ${STACK} = "container" ]; then
+  exit 1
+fi
+
+# Assuming that all the other stacks are ubuntu based.
 echo "Akita" && exit 0
