@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Populated by bin/compile
 export PATH=${PATH}:${HOME}/akita/bin
 
 if [ -z "${AKITA_API_KEY_ID}" ]; then
@@ -23,7 +22,6 @@ if [ -z "${HEROKU_SLUG_COMMIT}" ]; then
   exit 1
 fi
 
-# PATH set by compile script
 if [ -z "${PORT}" ]; then
   akita apidump \
     --out akita://${AKITA_SERVICE}:trace:heroku-${HEROKU_SLUG_COMMIT}
