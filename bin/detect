@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-# TODO: support arbitrary docker containers
-if [ ${STACK} = "container" ]; then
+# This buildpack does not work with a container build;
+# add Akita to the container you're building instead.
+if [ "${STACK}" = "container" ]; then
   exit 1
 fi
 
-# Assuming that all the other stacks are ubuntu based.
-echo "Akita" && exit 0
+# Assuming we can build on all other stacks (they are Ubuntu-based.)
+echo "Akita CLI" && exit 0

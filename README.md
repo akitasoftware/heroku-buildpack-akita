@@ -2,35 +2,51 @@ Heroku Buildpack integration.
 
 # How to Use
 
-1. Configure your heroku project to:
-
-    - Add Akita specific environment variables
-    - Use this buildpack
-    - Use the `apt` buildpack to install `libpcap` dependency.
+## 1. Add your Akita API key ID and secret as configuration variables in Heroku.
 
 ```shell
-# Enable dyno metadata so we can create a unique name for the trace collected on
-# this instance of your app.
-heroku labs:enable runtime-dyno-metadata -a $(heroku apps:info|grep ===|cut -d' ' -f2)
-
-# apt buildpack to install dependencies
-heroku buildpacks:add \
-  --index 1 \
-  heroku-community/apt
-
-# This buildpack to install akita itself.
-heroku buildpacks:add \
-  --index 2 \
-  https://github.com/akitasoftware/heroku-buildpack-akita.git
-
 heroku config:add AKITA_API_KEY_ID={KEY_ID}
 heroku config:add AKITA_API_KEY_SECRET={KEY_SECRET}
-heroku config:add AKITA_SERVICE={SERVICE_NAME}
 ```
 
-1. Add `Aptfile` to the root of your repo with the following content, which will
-   be used by `apt` buildpack to install dependencies:
+## 2. Add this buildpack to Heroku
+
+It may appear anywhere in the list. This buildpack downloads a statically compiled 
+release of the Akita CLI and installs it in your app, but does not configure 
+the CLI to automatically run.
+
+```shell
+heroku buildpacks:add --index 1 \
+  https://github.com/akitasoftware/heroku-buildpack-akita.git
+```
+
+## 3. Add the Akita CLI in daemon mode as a worker
+
+Edit your Heroku Procfile to add the Akita CLI:
 
 ```
-libpcap0.8
+worker: bin/akita daemon --name <name>
 ```
+
+Choose a name for the daemon that will help you identify it on the Akita web console.
+
+The Daemon listens for traffic on port 50080 by default. You can choose a different
+port with the `--port` command line flag. This port is not visible outside of the
+Heroku dyno. 
+
+## 4. Configure your application to use Akita middleware
+
+The Akita CLI cannot perform packet captures in a Heroku Dyno, because it lacks root
+access.  Instead, your application must use middleware to capture requests and responses,
+and send them to the Akita daemon for upload.
+
+ * Express.js middleware: https://github.com/akitasoftware/express-middleware 
+ * Django middleware: https://github.com/akitasoftware/akita-django
+
+## 5. Start traces from the Akita web console
+
+After building and deploying your Heroku app, you can start traces at any time via
+the Akita web console.  See https://docs.akita.software/docs/django-on-heroku for an 
+example.
+
+
