@@ -34,6 +34,12 @@ The Daemon listens for traffic on port 50080 by default. You can choose a differ
 port with the `--port` command line flag. This port is not visible outside of the
 Heroku dyno. 
 
+Worker processes are not started by default. To create the Akita daemon process, run
+
+```shell
+heroku ps:scale worker=1
+```
+
 ## 4. Configure your application to use Akita middleware
 
 The Akita CLI cannot perform packet captures in a Heroku Dyno, because it lacks root
