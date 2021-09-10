@@ -9,38 +9,26 @@ heroku config:add AKITA_API_KEY_ID={KEY_ID}
 heroku config:add AKITA_API_KEY_SECRET={KEY_SECRET}
 ```
 
+Optionally, specify a daemon name and a port for it to listen to. The name of the 
+Heroku dyno will be used as a suffix to the daemon name.
+
+```shell
+heroku config:add AKITA_DAEMON_PORT=50800
+heroku config:add AKITA_DAEMON_NAME=heroku
+```
+
 ## 2. Add this buildpack to Heroku
 
 It may appear anywhere in the list. This buildpack downloads a statically compiled 
-release of the Akita CLI and installs it in your app, but does not configure 
-the CLI to automatically run.
+release of the Akita CLI and installs it in your app, and causes it to 
+run automatically in daemon mode.
 
 ```shell
 heroku buildpacks:add --index 1 \
   https://github.com/akitasoftware/heroku-buildpack-akita.git
 ```
 
-## 3. Add the Akita CLI in daemon mode as a worker
-
-Edit your Heroku Procfile to add the Akita CLI:
-
-```
-worker: bin/akita daemon --name <name>
-```
-
-Choose a name for the daemon that will help you identify it on the Akita web console.
-
-The Daemon listens for traffic on port 50080 by default. You can choose a different
-port with the `--port` command line flag. This port is not visible outside of the
-Heroku dyno. 
-
-Worker processes are not started by default. To create the Akita daemon process, run
-
-```shell
-heroku ps:scale worker=1
-```
-
-## 4. Configure your application to use Akita middleware
+## 3. Configure your application to use Akita middleware
 
 The Akita CLI cannot perform packet captures in a Heroku Dyno, because it lacks root
 access.  Instead, your application must use middleware to capture requests and responses,
@@ -49,7 +37,7 @@ and send them to the Akita daemon for upload.
  * Express.js middleware: https://github.com/akitasoftware/express-middleware 
  * Django middleware: https://github.com/akitasoftware/akita-django
 
-## 5. Start traces from the Akita web console
+## 4. Start traces from the Akita web console
 
 After building and deploying your Heroku app, you can start traces at any time via
 the Akita web console.  See https://docs.akita.software/docs/django-on-heroku for an 
