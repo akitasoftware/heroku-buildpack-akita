@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
+# TODO: this runs during "heroku ps:exec" too, but the environment
+# variables are not set. Is there a way to detect this and exit
+# without the following error message?
+
 if [ -z "$AKITA_API_KEY_ID" ]; then
     echo "ERROR: Akita daemon not started: AKITA_API_KEY_ID not set."
-    return 1
+    exit 1
 fi
 
 if [ -z "$AKITA_API_KEY_SECRET" ]; then
     echo "ERROR: Akita daemon not started: AKITA_API_KEY_SECRET not set."
-    return 1
+    exit 1
 fi
 
 AKITA_DAEMON_PORT=${AKITA_DAEMON_PORT:-58000}
