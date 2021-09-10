@@ -12,8 +12,8 @@ heroku config:add AKITA_API_KEY_SECRET={KEY_SECRET}
 ## 2. Add this buildpack to Heroku
 
 It may appear anywhere in the list. This buildpack downloads a statically compiled 
-release of the Akita CLI and installs it in your app, but does not configured
-it to automatically run.
+release of the Akita CLI and installs it in your app, but does not configure 
+the CLI to automatically run.
 
 ```shell
 heroku buildpacks:add --index 1 \
@@ -40,10 +40,13 @@ The Akita CLI cannot perform packet captures in a Heroku Dyno, because it lacks 
 access.  Instead, your application must use middleware to capture requests and responses,
 and send them to the Akita daemon for upload.
 
+ * Express.js middleware: https://github.com/akitasoftware/express-middleware 
+ * Django middleware: https://github.com/akitasoftware/akita-django
+
 ## 5. Start traces from the Akita web console
 
 After building and deploying your Heroku app, you can start traces at any time via
 the Akita web console.  See https://docs.akita.software/docs/django-on-heroku for an 
-Example.
+example.
 
 
