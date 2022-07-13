@@ -9,7 +9,7 @@ ENV_DIR=$3
 
 BUILDPACK_DIR=$(cd "$(dirname "$0")"; cd ..; pwd)
 
-AKITA_VERSION="0.18.1"
+AKITA_VERSION="0.21.1"
 
 if [ -d "$ENV_DIR" ]; then
     if [ -e "$ENV_DIR/AKITA_VERSION" ]; then
